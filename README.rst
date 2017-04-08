@@ -1,5 +1,5 @@
 ============================================================================
-Tools for polytopes in SageMath, with a focus on computational geometry
+Tools for polytopes in SageMath
 ============================================================================
 
 

@@ -88,7 +88,7 @@ def polyhedron_to_Hrep(P, separate_equality_constraints = False):
         ....: [0.0,  0.0,  0.0,  0.0,  0.0,  1.0],
         ....: [0.0,  0.0,  0.0,  0.0,  0.0, -1.0]])
         sage: b = vector(RDF, [0.0, 10.0, 0.0, 0.0, 0.2, 0.2, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0])
-        sage: from carlin.polyhedron_toolbox import polyhedron_from_Hrep, polyhedron_to_Hrep
+        sage: from polyhedron_toolbox.misc import polyhedron_from_Hrep, polyhedron_to_Hrep
         sage: P = polyhedron_from_Hrep(A, b, base_ring = RDF); P
         A 3-dimensional polyhedron in RDF^6 defined as the convex hull of 8 vertices
         sage: [A, b] = polyhedron_to_Hrep(P)
@@ -231,7 +231,7 @@ def polyhedron_from_Hrep(A, b, base_ring=QQ):
         ....: [ 0.0,  0.0,  0.0,  0.0,  0.0,  1.0],
         ....: [ 0.0,  0.0,  0.0,  0.0,  0.0, -1.0]])
         sage: b = vector(RDF, [0.0, 10.0, 0.0, 0.0, 0.2, 0.2, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0])
-        sage: from carlin.polyhedron_toolbox import polyhedron_from_Hrep
+        sage: from polyhedron_toolbox.misc import polyhedron_from_Hrep
         sage: P = polyhedron_from_Hrep(A, b, base_ring=QQ); P
         A 3-dimensional polyhedron in QQ^6 defined as the convex hull of 8 vertices
 
@@ -317,9 +317,10 @@ def polyhedron_from_Hrep(A, b, base_ring=QQ):
     return P
         
 def chebyshev_center(P=None, A=None, b=None):
-    r"""Compute Chebyshev center of polytope.
+    r"""Compute the Chebyshev center of a polytope.
 
-    The Chebyshev center of a polytope is the center of the largest hypersphere enclosed by the polytope.
+    The Chebyshev center of a polytope is the center of the largest hypersphere 
+    enclosed by the polytope.
 
     INPUT:
 
@@ -329,7 +330,7 @@ def chebyshev_center(P=None, A=None, b=None):
 
     OUTPUT:
 
-    * ``cheby_center`` - the Chebyshev center, as a vector. The base ring is preserved.
+    * The Chebyshev center, as a vector; the base ring of ``P`` preserved.
 
     """
     from sage.numerical.mip import MixedIntegerLinearProgram
@@ -392,7 +393,7 @@ def radius(P):
     - The difference with mult-methods is that they check also for the type of the arguments.
 
     """
-    from carlin.polyhedron_toolbox import support_function
+    from polyhedron_toolbox.misc import support_function
     
     if (type(P) == list):
 
@@ -440,7 +441,7 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
 
     EXAMPLES::
 
-        sage: from carlin.polyhedron_toolbox import BoxInfty, support_function
+        sage: from polyhedron_toolbox.misc import BoxInfty, support_function
         sage: P = BoxInfty([1,2,3], 1); P
         A 3-dimensional polyhedron in QQ^3 defined as the convex hull of 8 vertices
         sage: support_function(P, [1,1,1], return_xopt=True)
@@ -572,7 +573,7 @@ def BoxInfty(lengths=None, center=None, radius=None, base_ring=QQ, return_HSpace
 
     EXAMPLES::
 
-        sage: from carlin.polyhedron_toolbox import BoxInfty
+        sage: from polyhedron_toolbox.misc import BoxInfty
         sage: P = BoxInfty([1,2,3], 1); P
         A 3-dimensional polyhedron in QQ^3 defined as the convex hull of 8 vertices
         sage: P.plot(aspect_ratio=1)    # not tested (plot)
@@ -709,8 +710,8 @@ def opposite_polyhedron(P, base_ring=None):
 
     EXAMPLES::
 
-        sage: from carlin.polyhedron_toolbox import BallInfty, opposite_polyhedron
-        sage: P = BallInfty([1,1], 0.5)
+        sage: from polyhedron_toolbox.misc import BoxInfty, opposite_polyhedron
+        sage: P = BoxInfty([1,1], 0.5)
         sage: minusP = opposite_polyhedron(P)
         sage: P.plot(aspect_ratio=1) + minusP.plot()    # not tested (plot)
 
