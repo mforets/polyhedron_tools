@@ -9,14 +9,13 @@ Features:
 of the polytope, including:
    - Chebyshev center
    - Radius
-   - Random polygons
    - Opposite polyhedron
    
 AUTHOR:
 
 - Marcelo Forets (Oct 2016 at VERIMAG - UGA)
 
-Last modified: 2017-04-08
+Last modified: 2017-04-09
 """
 
 #************************************************************************
@@ -28,10 +27,6 @@ Last modified: 2017-04-08
 # any later version.
 #                  http://www.gnu.org/licenses/
 #************************************************************************
-
-# SciPy dependencies
-import numpy as np
-import random
 
 # Sage rings
 from sage.rings.rational_field import QQ
@@ -539,7 +534,7 @@ def support_function_ellipsoid(Q, d):
     return sqrt(d.inner_product((~Q)*d))
                 
 def BoxInfty(lengths=None, center=None, radius=None, base_ring=QQ, return_HSpaceRep=False):
-    r"""Generate a box (hyper-rectangle) in the supremum norm.
+    r"""Generate a ball in the supremum norm, or more generally a hyper-rectangle in an Euclidean space.
 
     It can be constructed from its center and radius, in which case it is a box. 
     It can also be constructed giving the lengths of the sides, in which case it is an hyper-rectangle. 
@@ -655,43 +650,6 @@ def BoxInfty(lengths=None, center=None, radius=None, base_ring=QQ, return_HSpace
         return P
     else:
         return [A, b]   
-    
-def random_polygon_2d(num_vertices, **kwargs):
-    r"""Generate a random polygon (2d) obtained by uniform sampling over the unit circle.
-
-    INPUT:
-
-    * ``num_vertices`` - the number of vertices of the generated polyhedron.
-
-    * ``base_ring`` - (default: ``QQ``). The ring passed to the constructor of Polyhedron. 
-    alid options are ``QQ`` and ``RDF``.
-
-    * ``scale`` - (default: 1). The scale factor; each vertex is chosen randomly from the unit circle, 
-    and then multiplied by scale.
-
-    OUTPUT:
-
-    A random polygon (object of type Polyhedron), whose vertices belong to a circle
-    of radius ``scale``.
-
-    NOTES:
-
-    - If ``RDF`` is chosen as ``base_ring``, sometimes there are exceptions related 
-    to numerical errors, and show up as ``'FrozenSet'`` exceptions. This occurs 
-    particularly frequently for a large number of vertices (more than 30).
-    """
-    from sage.functions.log import exp
-    from sage.symbolic.constants import pi
-    from sage.symbolic.all import I
-        
-    base_ring = kwargs['base_ring'] if 'base_ring' in kwargs else QQ
-
-    scale = kwargs['scale'] if 'scale' in kwargs else 1
-
-    angles = [random.uniform(0, 2*pi.n(digits=5)) for i in range(num_vertices)]
-    vert = [[scale*exp(I*angles[i]).real(), scale*exp(I*angles[i]).imag()] for i in range(num_vertices)]
-
-    return Polyhedron(vertices = vert, base_ring=base_ring)
     
 def opposite_polyhedron(P, base_ring=None):
     r"""Generate the polyhedron whose vertices are oppositve to a given one.
