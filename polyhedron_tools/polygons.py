@@ -137,7 +137,7 @@ def edges_adjacent(P, i, cmatrix=None):
     - This has been tested for P in QQ and RDF only.
     """
     if cmatrix is None:
-        cmatrix = constraints_matrix(P)
+        cmatrix = vertex_connections(P)
     
     constraint = P.inequalities_list()[i]
     
@@ -175,7 +175,7 @@ def edges_intersection(P, i, cmatrix=None):
     """
     
     if cmatrix is None:
-        cmatrix = constraints_matrix(P)
+        cmatrix = vertex_connections(P)
        
     got_QQ = True if P.base_ring() == QQ else False
     
