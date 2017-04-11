@@ -100,6 +100,8 @@ def vertex_connections(P):
         
     got_QQ = True if P.base_ring() == QQ else False
     
+    constraints_matrix = []
+    
     # loop in the constraints
     for i, constraint in enumerate(P.inequalities_list()):
 
@@ -112,8 +114,9 @@ def vertex_connections(P):
             
             if (got_QQ and (ai*vector(vj) + bi == 0)) or (not got_QQ and abs(ai*vector(vj) + bi < tol)): 
                 constraint_i_vertices.append(j)
-                
-    return constraint_i_vertices
+        constraints_matrix.append(constraint_i_vertices)
+        
+    return constraints_matrix
 
 def edges_adjacent(P, i, cmatrix=None):
     r"""Return the edges that are connected to a given edge in a polygon.
