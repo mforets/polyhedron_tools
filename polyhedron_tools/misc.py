@@ -39,6 +39,7 @@ from sage.modules.free_module_element import zero_vector
 
 # Misc methods
 from sage.geometry.polyhedron.misc import _make_listlist
+from sage.functions.other import sqrt
 
 def polyhedron_to_Hrep(P, separate_equality_constraints = False):
     r"""Extract half-space representation of polytope. 
@@ -83,7 +84,7 @@ def polyhedron_to_Hrep(P, separate_equality_constraints = False):
         ....: [0.0,  0.0,  0.0,  0.0,  0.0,  1.0],
         ....: [0.0,  0.0,  0.0,  0.0,  0.0, -1.0]])
         sage: b = vector(RDF, [0.0, 10.0, 0.0, 0.0, 0.2, 0.2, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0])
-        sage: from polyhedron_toolbox.misc import polyhedron_from_Hrep, polyhedron_to_Hrep
+        sage: from polyhedron_tools.misc import polyhedron_from_Hrep, polyhedron_to_Hrep
         sage: P = polyhedron_from_Hrep(A, b, base_ring = RDF); P
         A 3-dimensional polyhedron in RDF^6 defined as the convex hull of 8 vertices
         sage: [A, b] = polyhedron_to_Hrep(P)
@@ -226,7 +227,7 @@ def polyhedron_from_Hrep(A, b, base_ring=QQ):
         ....: [ 0.0,  0.0,  0.0,  0.0,  0.0,  1.0],
         ....: [ 0.0,  0.0,  0.0,  0.0,  0.0, -1.0]])
         sage: b = vector(RDF, [0.0, 10.0, 0.0, 0.0, 0.2, 0.2, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0])
-        sage: from polyhedron_toolbox.misc import polyhedron_from_Hrep
+        sage: from polyhedron_tools.misc import polyhedron_from_Hrep
         sage: P = polyhedron_from_Hrep(A, b, base_ring=QQ); P
         A 3-dimensional polyhedron in QQ^6 defined as the convex hull of 8 vertices
 
@@ -388,7 +389,7 @@ def radius(P):
     - The difference with mult-methods is that they check also for the type of the arguments.
 
     """
-    from polyhedron_toolbox.misc import support_function
+    from polyhedron_tools.misc import support_function
     
     if (type(P) == list):
 
@@ -436,7 +437,7 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
 
     EXAMPLES::
 
-        sage: from polyhedron_toolbox.misc import BoxInfty, support_function
+        sage: from polyhedron_tools.misc import BoxInfty, support_function
         sage: P = BoxInfty([1,2,3], 1); P
         A 3-dimensional polyhedron in QQ^3 defined as the convex hull of 8 vertices
         sage: support_function(P, [1,1,1], return_xopt=True)
@@ -458,20 +459,11 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
     """
     from sage.numerical.mip import MixedIntegerLinearProgram
 
-    # avoid formulating the LP if P = []
-    if P.is_empty():
-        return 0
-
-    s_LP = MixedIntegerLinearProgram(maximization=True, solver = solver)
-    x = s_LP.new_variable(integer=False, nonnegative=False)
-
-    # objective function
-    obj = sum(d[i]*x[i] for i in range(len(d)))
-    s_LP.set_objective(obj)
-
     if (type(P) == list):
         A = P[0]; b = P[1];
-
+    elif P.is_empty():
+        # avoid formulating the LP if P = []
+        return 0
     else: #assuming some form of Polyhedra
         base_ring = P.base_ring()
         # extract the constraints from P
@@ -486,6 +478,13 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
             A.set_row(i, -pi_vec[1:len(pi_vec)])
             b[i] = pi_vec[0]
             i+=1;
+            
+    s_LP = MixedIntegerLinearProgram(maximization=True, solver = solver)
+    x = s_LP.new_variable(integer=False, nonnegative=False)
+
+    # objective function
+    obj = sum(d[i]*x[i] for i in range(len(d)))
+    s_LP.set_objective(obj)
 
     s_LP.add_constraint(A * x <= b);
 
@@ -524,7 +523,6 @@ def support_function_ellipsoid(Q, d):
 
     The value of the support function at `d`.
     """
-    from sage.functions.other import sqrt
     if (Q.is_singular()):
         raise ValueError("The coefficient matrix of the ellipsoid is not invertible.")
     
@@ -568,7 +566,7 @@ def BoxInfty(lengths=None, center=None, radius=None, base_ring=QQ, return_HSpace
 
     EXAMPLES::
 
-        sage: from polyhedron_toolbox.misc import BoxInfty
+        sage: from polyhedron_tools.misc import BoxInfty
         sage: P = BoxInfty([1,2,3], 1); P
         A 3-dimensional polyhedron in QQ^3 defined as the convex hull of 8 vertices
         sage: P.plot(aspect_ratio=1)    # not tested (plot)
@@ -668,7 +666,7 @@ def opposite_polyhedron(P, base_ring=None):
 
     EXAMPLES::
 
-        sage: from polyhedron_toolbox.misc import BoxInfty, opposite_polyhedron
+        sage: from polyhedron_tools.misc import BoxInfty, opposite_polyhedron
         sage: P = BoxInfty([1,1], 0.5)
         sage: minusP = opposite_polyhedron(P)
         sage: P.plot(aspect_ratio=1) + minusP.plot()    # not tested (plot)
