@@ -39,6 +39,7 @@ from sage.modules.free_module_element import zero_vector
 
 # Misc methods
 from sage.geometry.polyhedron.misc import _make_listlist
+from sage.functions.other import sqrt
 
 def polyhedron_to_Hrep(P, separate_equality_constraints = False):
     r"""Extract half-space representation of polytope. 
@@ -522,7 +523,6 @@ def support_function_ellipsoid(Q, d):
 
     The value of the support function at `d`.
     """
-    from sage.functions.other import sqrt
     if (Q.is_singular()):
         raise ValueError("The coefficient matrix of the ellipsoid is not invertible.")
     
