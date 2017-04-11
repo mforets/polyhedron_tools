@@ -458,20 +458,11 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
     """
     from sage.numerical.mip import MixedIntegerLinearProgram
 
-    # avoid formulating the LP if P = []
-    if P.is_empty():
-        return 0
-
-    s_LP = MixedIntegerLinearProgram(maximization=True, solver = solver)
-    x = s_LP.new_variable(integer=False, nonnegative=False)
-
-    # objective function
-    obj = sum(d[i]*x[i] for i in range(len(d)))
-    s_LP.set_objective(obj)
-
     if (type(P) == list):
         A = P[0]; b = P[1];
-
+    elif P.is_empty():
+        # avoid formulating the LP if P = []
+        return 0
     else: #assuming some form of Polyhedra
         base_ring = P.base_ring()
         # extract the constraints from P
@@ -486,6 +477,13 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
             A.set_row(i, -pi_vec[1:len(pi_vec)])
             b[i] = pi_vec[0]
             i+=1;
+            
+    s_LP = MixedIntegerLinearProgram(maximization=True, solver = solver)
+    x = s_LP.new_variable(integer=False, nonnegative=False)
+
+    # objective function
+    obj = sum(d[i]*x[i] for i in range(len(d)))
+    s_LP.set_objective(obj)
 
     s_LP.add_constraint(A * x <= b);
 
