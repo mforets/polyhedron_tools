@@ -173,6 +173,7 @@ def edges_intersection(P, i, cmatrix=None):
     
     - This has been tested for P in QQ and RDF.
     """
+    from sage.symbolic.ring import SR
     
     if cmatrix is None:
         cmatrix = vertex_connections(P)
@@ -197,7 +198,8 @@ def edges_intersection(P, i, cmatrix=None):
     constr_2 = P.inequalities_list()[neighbor_constraints[1]]
 
     # write and solve the intersection of the two lines
-    var('x1 x2')
+    x1 = SR.var('x1'); x2 = SR.var('x2')
+    
     eq1 = constr_1[1]*x1 + constr_1[2]*x2 == -constr_1[0]
     eq2 = constr_2[1]*x1 + constr_2[2]*x2 == -constr_2[0]
 
