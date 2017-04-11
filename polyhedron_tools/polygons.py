@@ -174,6 +174,7 @@ def edges_intersection(P, i, cmatrix=None):
     - This has been tested for P in QQ and RDF.
     """
     from sage.symbolic.ring import SR
+    from sage.symbolic.relation import solve
     
     if cmatrix is None:
         cmatrix = vertex_connections(P)
