@@ -159,3 +159,70 @@ def _asphericity_iteration(xk, l, m, p, A, a, B, b, verbose=0, solver='GLPK'):
         print '\n'
 
     return [opt_val, x_opt, z_opt]
+
+def inradius(P, x):
+    r"""Compute the radius of the box of biggest volume (= ball in the sup-norm)
+    which is contained P, with center at x.
+    """
+
+    if not (P.contains(x)):
+        return NotImplementedError("The polytope should contain x.")
+
+    (A, a, B, b, C, c, D, d) = dual_representation(P)
+
+    l = D.nrows() 
+
+    return min(B.row(j)*vector(x)+b[j] for j in range(l))
+
+def circumradius(P, x):
+    r"""Compute the radius of the box of smallest volume (= ball in the sup-norm)
+    which contains P, with center at x.
+    """
+
+    if not (P.contains(x)):
+        return NotImplementedError("The polytope should contain x.")
+
+    (A, a, B, b, C, c, D, d) = dual_representation(P)
+
+    m = len(c) 
+
+    return max(A.row(i)*vector(x)+a[i] for i in range(m))
+
+def dual_representation(P):
+    from polyhedron_tools.misc import polyhedron_to_Hrep, support_function, opposite_polyhedron, BoxInfty
+
+    # in the form Dy <= d
+    [D, d] = polyhedron_to_Hrep(P) 
+
+    # transform to <Dj,y> + dj >= 0
+    D = -D
+
+    l = D.nrows() 
+
+    mP = opposite_polyhedron(P)
+
+    # unit ball, infinity norm
+    Bn = BoxInfty([(-1,1),(-1,1)])
+
+    [C, c] = polyhedron_to_Hrep(Bn)
+
+    # transform to <Cj,y> + cj >= 0
+    C = -C
+    
+    m = len(c) 
+
+    # auxiliary matrices A, a, B, b
+    A = matrix(RR, C.nrows(), C.ncols())
+    a = []
+    for i in range(m):
+        A.set_row(i, -C.row(i)/c[i])
+        a.append(support_function(mP, A.row(i))) 
+
+    B = matrix(RR, D.nrows(), D.ncols())
+    b = []
+    for j in range(l):
+        [nDj, ymax] = support_function(Bn, D.row(j), return_xopt=True)
+        B.set_row(j, D.row(j)/nDj)
+        b.append(d[j]/nDj)
+
+    return (A, a, B, b, C, c, D, d)

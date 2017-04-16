@@ -97,11 +97,11 @@ def vertex_connections(P):
     """    
     # tolerance for numerical error (for use in RDF only)
     tol = 1e-6
-        
+
     got_QQ = True if P.base_ring() == QQ else False
-    
+
     constraints_matrix = []
-    
+
     # loop in the constraints
     for i, constraint in enumerate(P.inequalities_list()):
 
@@ -109,89 +109,89 @@ def vertex_connections(P):
         bi = constraint[0]; ai = vector([constraint[1], constraint[2]])
 
         constraint_i_vertices = []
-    
+
         for j, vj in enumerate(P.vertices_list()):
-            
+
             if (got_QQ and (ai*vector(vj) + bi == 0)) or (not got_QQ and abs(ai*vector(vj) + bi < tol)): 
                 constraint_i_vertices.append(j)
         constraints_matrix.append(constraint_i_vertices)
-        
+
     return constraints_matrix
 
 def edges_adjacent(P, i, cmatrix=None):
     r"""Return the edges that are connected to a given edge in a polygon.
-        
+
     INPUT: 
-    
+
     ``P`` - a polygon (Polyhedron object in two-dimensional ambient space).
-    
+
     ``i`` - integer, index of edge in ``P.inequalities_list()``.
-    
+
     OUTPUT: 
-    
+
     Indices of the edges that are adjacent to the given edge. 
     The edges are indexed according to ``P.inequalities_list()``. 
-    
+
     NOTES: 
-    
+
     - This has been tested for P in QQ and RDF only.
     """
     if cmatrix is None:
         cmatrix = vertex_connections(P)
-    
+
     constraint = P.inequalities_list()[i]
-    
+
     neighbor_constraints = []
-    
+
     # vertices associated to the given edge i
     vert_i = cmatrix[i]
-    
+
     for j, cj in enumerate(cmatrix):
         if (vert_i[0] in cj or vert_i[1] in cj) and (j != i):
             neighbor_constraints.append(j)
-            
+
     return neighbor_constraints
 
 def edges_intersection(P, i, cmatrix=None):
     r"""Return the point in the plane where the edges adjacent to the input edge intersect.
-    
+
     INPUT: 
-    
+
     ``P`` - a polygon (Polyhedron in 2d).
-    
+
     ``i`` - integer, index of edge in ``P.inequalities_list()``.
-    
+
     ``cmatrix`` - (optional) if None, the constraints matrix corresponding to P is computed inside the function.
-    
+
     OUTPUT: 
-    
+
     ``p`` - coordinates of the intersection of the edges that are adjacent to i.
-    
+
     ``neighbor_constraints`` - indices of the edges that are adjacent to it. The edges are indexed according to P.inequalities_list(). 
-    
+
     NOTES: 
-    
+
     - This has been tested for P in QQ and RDF.
     """
     from sage.symbolic.ring import SR
     from sage.symbolic.relation import solve
-    
+
     if cmatrix is None:
         cmatrix = vertex_connections(P)
-       
+
     got_QQ = True if P.base_ring() == QQ else False
-    
+
     #constraint_i = P.inequalities_list()[i]
 
     neighbor_constraints = []
-    
+
     # vertices associated to the given edge i
     vert_i = cmatrix[i]
-    
+
     for j, cj in enumerate(cmatrix):
         if (vert_i[0] in cj or vert_i[1] in cj) and (j != i):
             neighbor_constraints.append(j)
-            
+
     # first one
     constr_1 = P.inequalities_list()[neighbor_constraints[0]]
 
@@ -200,44 +200,44 @@ def edges_intersection(P, i, cmatrix=None):
 
     # write and solve the intersection of the two lines
     x1 = SR.var('x1'); x2 = SR.var('x2')
-    
+
     eq1 = constr_1[1]*x1 + constr_1[2]*x2 == -constr_1[0]
     eq2 = constr_2[1]*x1 + constr_2[2]*x2 == -constr_2[0]
 
     p = solve([eq1, eq2], x1, x2)
     p = [p[0][0].right_hand_side(), p[0][1].right_hand_side()]            
-            
+
     if not got_QQ: # assuming RDF
         # transform to RDF (because solve produces in general rational answers)
         p = [RDF(pi) for pi in p]
-    
+
     return p, neighbor_constraints
 
 def simplification_edge_prunning(X, E, XE=None, verbose=True):
     r"""Reduce the number of vertices in a polygon. 
-    
+
     Given a polygon `X` and an error set `E`, compute a simplified polygon `X_{new}` 
     based on edge removal, and such that the output is included in `X + E`.
-    
+
     INPUT: 
-    
+
     ``X`` - a polygon (Polyhedron in 2d).
-    
+
     ``E`` - a polygon (Polyhedron in 2d).    
-    
+
     OUTPUT: 
-    
+
     ``Xnew`` - prunned polygon.
-    
+
     NOTES: 
-    
+
     - The input `X + E` is optional; if it is not provided then it is computed. 
     - For several iterations of this algorithm, only the polygon `X + E` 
     should be kept as it was at the first iteration, while X changes.
     """
     if XE is None:
         XE = X + E 
-    
+
     # compute matrix of connections
     cmatrix = vertex_connections(X)
 
@@ -249,22 +249,21 @@ def simplification_edge_prunning(X, E, XE=None, verbose=True):
 
     # loop over constraints (step is the third argument)
     for i in range(0, NINEQ, 1):
-    
+
         # find the point at which the neighbours of edge i intersect
         p, neighbors = edges_intersection(X, i, cmatrix)
 
         # check whether p lies in XE
         if XE.contains(p):
-           
+
             # check if there is a common vertex between edge i and any of the edges that have been removed
             got_conflict = any(cmatrix[i][0] in cmatrix[e] for e in edges_removed)
             got_conflict = got_conflict or any(cmatrix[i][1] in cmatrix[e] for e in edges_removed)
-        
+
             if not got_conflict:
                 # remove i-th inequality provided there are no conflicts
                 edges_removed.append(i)
-   
-    
+
     # prunned list of inequalities
     Xnew_ieqs = []
 
@@ -272,11 +271,11 @@ def simplification_edge_prunning(X, E, XE=None, verbose=True):
         if i not in edges_removed:
             Xnew_ieqs.append(ieq) 
 
-    # instantiate new polyhedron        
-    Xnew = Polyhedron(ieqs = Xnew_ieqs)     
+    # instantiate new polyhedron
+    Xnew = Polyhedron(ieqs = Xnew_ieqs)
 
     if verbose:
         print '\ninitial number of edges = ', len(X.inequalities_list())
         print 'final number of edges = ', len(Xnew_ieqs)
-    
-    return Xnew    
+
+    return Xnew   
