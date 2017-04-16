@@ -212,13 +212,13 @@ def dual_representation(P):
     m = len(c) 
 
     # auxiliary matrices A, a, B, b
-    A = matrix(RR, C.nrows(), C.ncols())
+    A = matrix(RDF, C.nrows(), C.ncols())
     a = []
     for i in range(m):
         A.set_row(i, -C.row(i)/c[i])
         a.append(support_function(mP, A.row(i))) 
 
-    B = matrix(RR, D.nrows(), D.ncols())
+    B = matrix(RDF, D.nrows(), D.ncols())
     b = []
     for j in range(l):
         [nDj, ymax] = support_function(Bn, D.row(j), return_xopt=True)
