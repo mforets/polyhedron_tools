@@ -32,7 +32,9 @@ Methods
   :maxdepth: 1
 
   misc
-
+  polygons
+  projections
+  asphericity
 
 Indices and Tables
 ==================
