@@ -32,10 +32,11 @@ Last modified: 2017-04-09
 from sage.rings.rational_field import QQ
 from sage.rings.real_double import RDF
 
-# Sage constructors
+# Sage common constructors
 from sage.geometry.polyhedron.constructor import Polyhedron
 from sage.matrix.constructor import matrix, vector
 from sage.modules.free_module_element import zero_vector
+from sage.matrix.special import identity_matrix
 
 # Misc methods
 from sage.geometry.polyhedron.misc import _make_listlist
