@@ -679,3 +679,28 @@ def opposite_polyhedron(P, base_ring=None):
         base_ring = P.base_ring()
 
     return Polyhedron(vertices = [-1*vector(v) for v in P.vertices_list()], base_ring = base_ring)
+
+def diameter_vertex_enumeration(P, p=oo):
+    r"""Compute the diameter of a polytope using the V-representation.
+
+    EXAMPLES:
+
+    By default, the supremum norm is used::
+    
+        sage: from polyhedron_tools.misc import diameter_vertex_enumeration
+        sage: diameter_vertex_enumeration(7*polytopes.hypercube(5))
+        14
+
+    A custom `p`-norm can be specified as well::
+
+        sage: diameter_vertex_enumeration(7*polytopes.hypercube(2), p=2)
+        14*sqrt(2)
+    """
+    diam = 0
+    vlist = P.vertices_list()
+    num_vertices = len(vlist)
+    for i in range(num_vertices):
+        for j in range(i+1, num_vertices):
+            dist_vi_vj = (vector(vlist[i]) - vector(vlist[j])).norm(p=p)
+            diam = max(diam, dist_vi_vj)
+    return diam
