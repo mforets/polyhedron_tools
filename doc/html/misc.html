@@ -149,6 +149,24 @@ enclosed by the polytope.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="polyhedron_tools.misc.diameter_vertex_enumeration">
+<code class="descclassname">polyhedron_tools.misc.</code><code class="descname">diameter_vertex_enumeration</code><span class="sig-paren">(</span><em>P</em>, <em>p=+Infinity</em><span class="sig-paren">)</span><a class="headerlink" href="#polyhedron_tools.misc.diameter_vertex_enumeration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the diameter of a polytope using the V-representation.</p>
+<p>EXAMPLES:</p>
+<p>By default, the supremum norm is used:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">sage: </span><span class="kn">from</span> <span class="nn">polyhedron_tools.misc</span> <span class="kn">import</span> <span class="n">diameter_vertex_enumeration</span>
+<span class="gp">sage: </span><span class="n">diameter_vertex_enumeration</span><span class="p">(</span><span class="mi">7</span><span class="o">*</span><span class="n">polytopes</span><span class="o">.</span><span class="n">hypercube</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="go">14</span>
+</pre></div>
+</div>
+<p>A custom <span class="math">\(p\)</span>-norm can be specified as well:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">sage: </span><span class="n">diameter_vertex_enumeration</span><span class="p">(</span><span class="mi">7</span><span class="o">*</span><span class="n">polytopes</span><span class="o">.</span><span class="n">hypercube</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">14*sqrt(2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="polyhedron_tools.misc.opposite_polyhedron">
 <code class="descclassname">polyhedron_tools.misc.</code><code class="descname">opposite_polyhedron</code><span class="sig-paren">(</span><em>P</em>, <em>base_ring=None</em><span class="sig-paren">)</span><a class="headerlink" href="#polyhedron_tools.misc.opposite_polyhedron" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate the polyhedron whose vertices are oppositve to a given one.</p>
