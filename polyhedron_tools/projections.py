@@ -14,7 +14,8 @@ EXAMPLES::
 
     sage: from polyhedron_tools.projections import lotov_algo
     sage: lotov_algo(matrix([[1, 0], [0, 1], [-1, 0], [0, -1]]), vector([1, 1, 1, 1]), vector([1, 0]), vector([0, 1]), 0.1)
-
+    [[(-1, 1), (-1, -1), (1, -1), (1.0, 1.0), (1.0, 1.0)],
+     [(-1.0, 1.0), (-1.0, -1.0), (-1.0, -1.0), (1.0, -1.0), (1.0, 1.0)]]
 REFERENCES:
 
 [1] Lotov, A. V., & Pospelov, A. I. (2008). The modified method of refined bounds for polyhedral approximation of convex polytopes.
