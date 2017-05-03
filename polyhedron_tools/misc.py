@@ -705,3 +705,41 @@ def diameter_vertex_enumeration(P, p=oo):
             dist_vi_vj = (vector(vlist[i]) - vector(vlist[j])).norm(p=p)
             diam = max(diam, dist_vi_vj)
     return diam
+
+def diameter_support_function(A, b):
+    r"""Compute the diameter of a polytope using the H-representation.
+
+    The diameter is computed in the supremum norm.
+
+    EXAMPLES::
+
+        sage: from polyhedron_tools.misc import diameter_support_function, polyhedron_to_Hrep
+        sage: [A, b] = polyhedron_to_Hrep(7*polytopes.hypercube(5))
+        sage: diameter_support_function(A, b)
+        (14.0, (7.0, 7.0, 7.0, 7.0, 7.0), (-7.0, -7.0, -7.0, -7.0, -7.0))
+    """
+    from polyhedron_tools.misc import support_function
+
+    # ambient dimension
+    n = A.ncols()
+
+    # number of constraints
+    m = A.rows()
+
+    In = identity_matrix(n)
+
+    # lower : min x_j
+    l = []
+    for j in range(n):
+        l += [-support_function([A, b], -In.column(j))]
+    l = vector(l)
+
+    # upper : max x_j
+    u = []
+    for j in range(n):
+        u += [support_function([A, b], In.column(j))]
+    u = vector(u)
+
+    diam = max(u-l)
+
+    return diam, u, l
