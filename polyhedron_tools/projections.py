@@ -12,6 +12,7 @@ AUTHORS:
 
 EXAMPLES::
 
+    sage: from polyhedron_tools.projections import lotov_algo
     sage: lotov_algo(matrix([[1, 0], [0, 1], [-1, 0], [0, -1]]), vector([1, 1, 1, 1]), vector([1, 0]), vector([0, 1]), 0.1)
 
 REFERENCES:
