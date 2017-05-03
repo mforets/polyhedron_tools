@@ -149,6 +149,20 @@ enclosed by the polytope.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="polyhedron_tools.misc.diameter_support_function">
+<code class="descclassname">polyhedron_tools.misc.</code><code class="descname">diameter_support_function</code><span class="sig-paren">(</span><em>A</em>, <em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#polyhedron_tools.misc.diameter_support_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the diameter of a polytope using the H-representation.</p>
+<p>The diameter is computed in the supremum norm.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">sage: </span><span class="kn">from</span> <span class="nn">polyhedron_tools.misc</span> <span class="kn">import</span> <span class="n">diameter_support_function</span><span class="p">,</span> <span class="n">polyhedron_to_Hrep</span>
+<span class="gp">sage: </span><span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">polyhedron_to_Hrep</span><span class="p">(</span><span class="mi">7</span><span class="o">*</span><span class="n">polytopes</span><span class="o">.</span><span class="n">hypercube</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">sage: </span><span class="n">diameter_support_function</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">(14.0, (7.0, 7.0, 7.0, 7.0, 7.0), (-7.0, -7.0, -7.0, -7.0, -7.0))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="polyhedron_tools.misc.diameter_vertex_enumeration">
 <code class="descclassname">polyhedron_tools.misc.</code><code class="descname">diameter_vertex_enumeration</code><span class="sig-paren">(</span><em>P</em>, <em>p=+Infinity</em><span class="sig-paren">)</span><a class="headerlink" href="#polyhedron_tools.misc.diameter_vertex_enumeration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the diameter of a polytope using the V-representation.</p>
