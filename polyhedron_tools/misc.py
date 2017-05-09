@@ -8,7 +8,7 @@ Features:
 - a bunch of commonly used functions, which do not require the double description 
 of the polytope, including:
    - Chebyshev center
-   - Radius
+   - Radius, Diameter
    - Opposite polyhedron
    
 AUTHOR:
@@ -389,7 +389,10 @@ def radius(P):
     (depending on the number of the arguments). 
     
     - The difference with mult-methods is that they check also for the type of the arguments.
-
+    
+    - v = P.bounding_box() # returns the coordinates of a rectangular box containing the polytope
+    polyInfNorm = max( vecpnorm(v[i],p='inf') for i in range(len(v)))
+    return polyInfNorm
     """
     from polyhedron_tools.misc import support_function
     
