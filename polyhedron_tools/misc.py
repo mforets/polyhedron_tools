@@ -712,6 +712,18 @@ def diameter_support_function(A, b):
 
     The diameter is computed in the supremum norm.
 
+    INPUT:
+
+    Polyhedron in H-representation, `Ax \leq b`.
+
+    OUTPUT:
+
+    - ``diam`` -- scalar, diameter of the polyhedron in the supremum norm
+
+    - ``u`` -- vector with components `u_j = \max x_j` for `x` in `P`
+
+    - ``l`` -- vector with components `l_j = \mix x_j` for `x` in `P`
+
     EXAMPLES::
 
         sage: from polyhedron_tools.misc import diameter_support_function, polyhedron_to_Hrep
