@@ -62,7 +62,7 @@
 <dt>of the polytope, including:</dt>
 <dd><ul class="first last simple">
 <li>Chebyshev center</li>
-<li>Radius</li>
+<li>Radius, Diameter</li>
 <li>Opposite polyhedron</li>
 </ul>
 </dd>
@@ -406,7 +406,10 @@ where <span class="math">\(\rho_P(e_i)\)</span> is the support function of <span
 <p>(depending on the number of the arguments).</p>
 <ul class="simple">
 <li>The difference with mult-methods is that they check also for the type of the arguments.</li>
+<li>v = P.bounding_box() # returns the coordinates of a rectangular box containing the polytope</li>
 </ul>
+<p>polyInfNorm = max( vecpnorm(v[i],p=&#8217;inf&#8217;) for i in range(len(v)))
+return polyInfNorm</p>
 </dd></dl>
 
 <dl class="function">
