@@ -33,7 +33,7 @@ These commands shall be executed inside the ``/docs`` directory.
 Examples
 ~~~~~~~~
 
-`Browse the Jupyter notebooks <http://nbviewer.jupyter.org/github/mforets/polyhedron_tools/tree/master/examples/>`_ which are available in the ``/examples`` folder in this repository. 
+`Browse the Jupyter notebooks <https://github.com/mforets/polyhedron_tools/tree/master/examples>`_ which are available in the ``/examples`` folder in this repository. 
 
 These can be displayed in a window embedded in github, but it is recommended to use the 
 external `nbviewer <http://nbviewer.jupyter.org/github/mforets/polyhedron_tools/tree/master/examples/>`_.
