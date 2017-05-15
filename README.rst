@@ -6,7 +6,7 @@ Tools for polytopes in SageMath
    :target: https://travis-ci.org/mforets/polyhedron_tools
 
 
-This project interacts with SageMath's class `Polyhedron (see reference manual) <http://doc.sagemath.org/html/en/reference/discrete_geometry/index.html#polyhedral-computations>`_, adding extra features geared towards:
+This project interacts with SageMath's class `Polyhedron <http://doc.sagemath.org/html/en/reference/discrete_geometry/index.html#polyhedral-computations>`_, adding extra features geared towards:
 
 - computational geometry,
 - mathematical optimization, and
