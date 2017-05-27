@@ -6,10 +6,7 @@ Features:
 - simpler matrix-vector `(A, b)` polytope constructor
 - support functions computation through the MIP interface
 - a bunch of commonly used functions, which do not require the double description 
-of the polytope, including:
-   - Chebyshev center
-   - Radius, Diameter
-   - Opposite polyhedron
+  of the polytope, including Chebyshev center, Radius, Diameter, Opposite polyhedron.
    
 AUTHOR:
 
