@@ -54,14 +54,14 @@ def polyhedron_to_Hrep(P, separate_equality_constraints = False):
 
     * ``P`` - object of class polyhedron
 
-    * ``separate_equality_constraints`` - (default = False) If True, returns Aeq, beq containing the equality constraints, 
-    removing the corresponding lines from A and b.
+    * ``separate_equality_constraints`` - (default = False) If True, returns ``Aeq``, ``beq`` containing the equality constraints, 
+    removing the corresponding lines from ``A`` and ``b``.
 
     OUTPUT:
 
-    * ``[A, b]`` - dense matrix and vector respectively (dense, RDF).
+    * ``[A, b]`` - dense matrix and vector respectively (dense, ``RDF``).
 
-    * ``[A, b, Aeq, beq]`` - (if the flag separate_equality_constraints is True), matrices and vectors (dense, RDF). 
+    * ``[A, b, Aeq, beq]`` - (if the flag separate_equality_constraints is True), matrices and vectors (dense, ``RDF``). 
     
     NOTES:
         
@@ -235,13 +235,12 @@ def polyhedron_from_Hrep(A, b, base_ring=QQ):
 
     NOTES:
 
-    - This function is useful especially when the input matrices A, b are ill-defined 
+    - This function is useful especially when the input matrices `A`, `b` are ill-defined 
     (constraints that differ by tiny amounts making the input data to be degenerate or almost degenerate), 
     causing problems to Polyhedron(...). 
     
-    - In this case it is recommended to use base_ring = QQ. Each element of A and b will be converted to rational, and this will be sent to Polyhedron.
+    - In this case it is recommended to use ``base_ring = QQ``. Each element of `A` and `b` will be converted to rational, and this will be sent to Polyhedron.
      Note that Polyhedron automatically removes redundant constraints.
-
     """
     
     if (base_ring == RDF):
@@ -422,7 +421,7 @@ def radius(P):
 def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
     r"""Compute support function of a convex polytope.
 
-    It is defined as `max_{x in P} \langle x, d \rangle` , where `d` is an input vector.
+    It is defined as `\max_{x in P} \langle x, d \rangle` , where `d` is an input vector.
 
     INPUT:
 
@@ -450,17 +449,12 @@ def support_function(P, d, verbose = 0, return_xopt = False, solver = 'GLPK'):
 
     NOTES:
 
-    - The possibility of giving the input polytope as ``[A, b]`` instead of a 
-    polyhedron P is useful in cases when the dimensions are high  (in practice, 
-    more than 30, but it depends on the particular system -number of 
+    - The possibility of giving the input polytope as `[A, b]` instead of a 
+    polyhedron is useful in cases when the dimensions are high (in practice, 
+    above or around 20, but it depends on the particular system -number of 
     constraints- as well). 
     
-    - In fact, it is often the case that the data is given in matrix format (A, b), 
-    hence it might be preferable to avoid the overhead of  building the Polyhedra, 
-    if our intention is solely to make computations that can be performed on 
-    the matrices A and b directly. The improve in speed is quite considerable.
-
-    - If a different solver is given, it should be installed properly.
+    - If a different solver (e.g. ``guurobi``) is given, it should be installed properly.
     """
     from sage.numerical.mip import MixedIntegerLinearProgram
 
@@ -520,9 +514,9 @@ def support_function_ellipsoid(Q, d):
 
     INPUT:
 
-    * ``Q`` - a square matrix.
+    * ``Q`` - a square matrix
 
-    * ``d`` - a vector (or list) where the support function is evaluated.
+    * ``d`` - a vector (or list) where the support function is evaluated
 
     OUTPUT:
 
@@ -557,13 +551,13 @@ def BoxInfty(lengths=None, center=None, radius=None, base_ring=QQ, return_HSpace
 
             * ``lenghts`` - a list of tuples containing the length of each side with respect to the coordinate axes, in the form [(min_x1, max_x1), ..., (min_xn, max_xn)].
 
-    * ``base_ring`` - (default: QQ) base ring passed to the Polyhedron constructor. Valid choices are:
+    * ``base_ring`` - (default: ``QQ``) base ring passed to the Polyhedron constructor. Valid choices are:
 
         * ``'QQ'``: rational
 
         * ``'RDF'``: real double field
 
-    * ``return_HSpaceRep`` - (default: False) If True, it does not construct the Polyhedron P, and returns instead the pairs ``[A, b]`` corresponding to P in half-space representation, and is understood that `Ax \leq b`.
+    * ``return_HSpaceRep`` - (default: False) If True, it does not construct the Polyhedron `P`, and returns instead the pairs ``[A, b]`` corresponding to P in half-space representation, and is understood that `Ax \leq b`.
 
     OUTPUT:
 
@@ -725,7 +719,7 @@ def diameter_support_function(A, b):
 
     - ``u`` -- vector with components `u_j = \max x_j` for `x` in `P`
 
-    - ``l`` -- vector with components `l_j = \mix x_j` for `x` in `P`
+    - ``l`` -- vector with components `l_j = \min x_j` for `x` in `P`
 
     EXAMPLES::
 
