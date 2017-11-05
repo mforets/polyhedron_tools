@@ -5,6 +5,11 @@ Tools for polytopes in SageMath
 .. image:: https://api.travis-ci.org/mforets/polyhedron_tools.svg
    :target: https://travis-ci.org/mforets/polyhedron_tools
 
+.. image:: https://img.shields.io/badge/docs-latest-blue.svg
+   :target: http://mforets.github.io/polyhedron_tools/doc/html
+
+.. image:: https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000
+   :target: https://github.com/mforets/polyhedron_tools/blob/master/LICENSE
 
 This project interacts with SageMath's class `Polyhedron <http://doc.sagemath.org/html/en/reference/discrete_geometry/index.html#polyhedral-computations>`_, adding extra features geared towards:
 
