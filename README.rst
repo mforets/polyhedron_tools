@@ -19,6 +19,8 @@ This project interacts with SageMath's class `Polyhedron <http://doc.sagemath.or
 
 It has both an educational and a research purpose.
 
+**WARNING:** *This package is deprecated and is no longer maintained. You may be interested to check out our Julia package* `LazySets.jl <https://github.com/JuliaReach/LazySets.jl>`_.
+
 Installation
 ~~~~~~~~~~~~
 
